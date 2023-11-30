@@ -23,20 +23,11 @@ public class MainActivity extends AppCompatActivity {
     //private AdapterPreguntas adapterPreguntas;
 
     private PreguntaRespuesta[] preguntas = {
-            new PreguntaRespuesta("¿Cuál fue el detonante de la Primera Guerra Mundial? ","respuesta1","respuesta2","respuesta3",2),
-            new PreguntaRespuesta("¿Quién fue el primer presidente de Estados Unidos? ","respuesta4","respuesta5","respuesta6",1),
-            new PreguntaRespuesta("¿Qué calavera no regresó tras el primer viaje de Colón a América?  ","respuesta8","respuesta9","respuesta10",1),
-            new PreguntaRespuesta("¿Qué exploradores dieron la primera vuelta al mundo?  ","respuesta8","respuesta9","respuesta10",1),
-            new PreguntaRespuesta("¿En qué año se disolvió la Unión Soviética? ","respuesta8","respuesta9","respuesta10",1),
-            new PreguntaRespuesta("¿En qué isla estuvo preso Napoleón?","respuesta8","respuesta9","respuesta10",1),
-            new PreguntaRespuesta("¿En qué año se creó la Organización de las Naciones Unidas? ","respuesta8","respuesta9","respuesta10",1),
-            new PreguntaRespuesta("¿En qué año pisó el hombre la luna por primera vez?  ","respuesta8","respuesta9","respuesta10",1),
-            new PreguntaRespuesta("¿Quién fue el primer presidente de la democracia española tras el franquismo?  ","respuesta8","respuesta9","respuesta10",1),
-            new PreguntaRespuesta("¿En qué ciudad tuvieron una reunión Hitler y Franco?","respuesta8","respuesta9","respuesta10",1),
-            new PreguntaRespuesta("¿Quién fue el presidente de la URSS que instauró la Perestroika? ","respuesta8","respuesta9","respuesta10",1),
-            new PreguntaRespuesta("¿Cuál es la narración épica más antigua?","respuesta8","respuesta9","respuesta10",1),
-            new PreguntaRespuesta("¿Qué famosa batalla marítima tuvo lugar en 1805? ","respuesta8","respuesta9","respuesta10",1),
-            new PreguntaRespuesta("¿Quién era el emperador de Roma durante la época de Jesús de Nazaret? ","respuesta8","respuesta9","respuesta10",1),
+            new PreguntaRespuesta("¿Qué tipo de animal es la ballena? ", "Mamifero", "Reptil", "Anfibio", 1),
+            new PreguntaRespuesta("¿Dónde está Transilvania?", "Madagascar", "Disney", "Rumania", 3),
+            new PreguntaRespuesta("¿Cuántos años duró la Primera Guerra Mundial?", "3", "4", "5", 2),
+            new PreguntaRespuesta("¿Cuándo murió Freddie Mercury?", "1991", "2010", "1960", 1),
+            new PreguntaRespuesta("¿Cuál es el océano más grande del mundo?", "Oceano indíco", "Oceano pacífico", "Oceano atlantico", 2)
 
     };
     private int contadorGeneral = 0;
@@ -63,6 +54,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //Log.d("Hola",radioGroup.getCheckedRadioButtonId()+"");
                 boolean flag2=false;
+
+
+                if  (estaMarcado()){
+
+
+
                 if (radioButton1.isChecked()){
                     if (preguntas[contadorGeneral].getPreguntaCorrecta()==1){
                         preguntas[contadorGeneral].setFlag(true);
@@ -85,9 +82,15 @@ public class MainActivity extends AppCompatActivity {
                 contadorGeneral++;
                 mostrarSiguientePregunta(v);
 
+                }
             }
         });
 
+    }
+
+
+    public  boolean estaMarcado(){
+        return radioButton1.isChecked() || radioButton2.isChecked() || radioButton3.isChecked();
     }
 
     private void mostrarSiguientePregunta(View v){
