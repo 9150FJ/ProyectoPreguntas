@@ -31,6 +31,7 @@
         app:layout_constraintVertical_bias="0.123" />
 
     <RadioGroup
+        android:id="@+id/grupoBoton"
         android:layout_width="377dp"
         android:layout_height="160dp"
         app:layout_constraintBottom_toTopOf="@+id/botonSiguiente"
