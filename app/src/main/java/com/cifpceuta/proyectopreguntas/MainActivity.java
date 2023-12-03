@@ -1,6 +1,8 @@
 package com.cifpceuta.proyectopreguntas;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.util.Consumer;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -8,9 +10,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,7 +27,10 @@ public class MainActivity extends AppCompatActivity {
     private RadioButton radioButton1, radioButton2, radioButton3;
     private Button botonSiguiente;
 
-    //private AdapterPreguntas adapterPreguntas;
+    private ImageButton botonTuerca;
+
+    boolean respuestaCorrecta=false;
+
 
     private PreguntaRespuesta[] preguntas = {
             new PreguntaRespuesta("¿Qué tipo de animal es la ballena? ", "Mamifero", "Reptil", "Anfibio", 1),
@@ -33,12 +43,27 @@ public class MainActivity extends AppCompatActivity {
     private int contadorGeneral = 0;
     public int aciertos = 0;
 
+
+
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        PreguntaRespuesta[] preguntasMezcladas = (PreguntaRespuesta[]) getIntent().getSerializableExtra("preguntas");
+        boolean preguntasAleatorias = getIntent().getBooleanExtra("random",false);
+        boolean respuestasCorrectas = getIntent().getBooleanExtra("respuestasCorrectas",false);
+        boolean temporizador = getIntent().getBooleanExtra("temporizador",false);
+        if (preguntasAleatorias){
+            preguntas=preguntasMezcladas;
+            System.out.println(Arrays.toString(preguntasMezcladas));
+        }
+        if (respuestasCorrectas){
+            respuestaCorrecta=true;
+        }
+
+
         setContentView(R.layout.activity_main);
-        //adapterPreguntas = new AdapterPreguntas(this,preguntas);
 
         contadorPregunta = findViewById(R.id.contadorPregunta);
         pregunta = findViewById(R.id.pregunta);
@@ -47,18 +72,14 @@ public class MainActivity extends AppCompatActivity {
         radioButton2 = findViewById(R.id.radioButton2);
         radioButton3 = findViewById(R.id.radioButton3);
         botonSiguiente = findViewById(R.id.botonSiguiente);
+        botonTuerca = (ImageButton) findViewById(R.id.botonTuerca);
         mostrarPregunta();
-
+        //contador(new View(this));
         botonSiguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Log.d("Hola",radioGroup.getCheckedRadioButtonId()+"");
-                boolean flag2=false;
-
 
                 if  (estaMarcado()){
-
-
 
                 if (radioButton1.isChecked()){
                     if (preguntas[contadorGeneral].getPreguntaCorrecta()==1){
@@ -85,6 +106,16 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        botonTuerca.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, ConfiguracionActivity.class);
+                startActivity(i);
+            }
+        });
+
+
 
     }
 
@@ -113,20 +144,48 @@ public class MainActivity extends AppCompatActivity {
         radioButton2.setText(preguntas[contadorGeneral].getRespuesta2());
         radioButton3.setText(preguntas[contadorGeneral].getRespuesta3());
         radioGroup.clearCheck();
-
+        System.out.println(respuestaCorrecta);
+        if (respuestaCorrecta){
+            switch (preguntas[contadorGeneral].getPreguntaCorrecta()){
+                case 1: radioButton1.setChecked(true);
+                    break;
+                case 2: radioButton2.setChecked(true);
+                    break;
+                case 3:radioButton3.setChecked(true);
+                    break;
+            }
+        }
 
 
     }
+
+    /*private void contador(View v){
+        Timer ts = new Timer();
+        ts.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                mostrarSiguientePregunta(v);
+            }
+        }, 1500);
+
+    }*/
+
 
     public void intentD(View view) {
         Intent i = new Intent(this, FinalizadoActivity.class);
         i.putExtra("resultado",aciertos);
         i.putExtra("contadorGen",contadorGeneral);
         i.putExtra("preguntasArray",preguntas);
+
         startActivity(i);
 
     }
 
+    public PreguntaRespuesta[] getPreguntas() {
+        return preguntas;
+    }
 
-
+    public void setPreguntas(PreguntaRespuesta[] preguntas) {
+        this.preguntas = preguntas;
+    }
 }

@@ -69,5 +69,12 @@ public class PreguntaRespuesta implements Serializable {
     public boolean isFlag() {
         return flag;
     }
+
+    @Override
+    public String toString() {
+        return "PreguntaRespuesta{" +
+                "pregunta='" + pregunta + '\'' +
+                '}';
+    }
 }
 

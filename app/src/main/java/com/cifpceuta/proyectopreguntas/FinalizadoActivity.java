@@ -6,6 +6,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -13,6 +15,7 @@ public class FinalizadoActivity extends AppCompatActivity {
     TextView resultado;
     private AdapterPreguntas adapterPreguntas;
     ListView lista;
+    Button botonVolver;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -33,5 +36,18 @@ public class FinalizadoActivity extends AppCompatActivity {
             Log.i("i: ",preguntas[o].getPregunta());
         }
 
+        botonVolver=(Button) findViewById(R.id.botonVolver);
+        botonVolver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(FinalizadoActivity.this, MainActivity.class);
+                startActivity(i);
+            }
+        });
     }
+
+
+
+
+
 }
